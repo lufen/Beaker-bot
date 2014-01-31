@@ -15,6 +15,7 @@ class SkypeBot(object):
             print "skype is now running"
         self.skype.FriendlyName = "Skype Bot"
         self.skype.Attach()
+        self.tag = "@"
         self.replacements = {"cloud": "butt", "Cloud": "Butt", "Butt":"Cloud", "butt": "cloud", "the cloud": "my butt", "The cloud": "My butt"}
     def MessageStatus(self, msg, status):
         if status == Skype4Py.cmsReceived:
@@ -25,7 +26,9 @@ class SkypeBot(object):
             if text.lower() == "@nsfw":
                 url = self.fetch_randNSFW()
                 msg.Chat.SendMessage(url)
-
+            if "@say:" in text.lower():
+                msg.chat.SendMessage(text.strip("@say:")
+                   
     def multiple_replace(self, dict, text):
         regex = re.compile("(%s)" % "|".join(map(re.escape, dict.keys())))
         return regex.sub(lambda mo: dict[mo.string[mo.start():mo.end()]], text)
