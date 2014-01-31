@@ -15,11 +15,11 @@ class SkypeBot(object):
             print "skype is now running"
         self.skype.FriendlyName = "Skype Bot"
         self.skype.Attach()
-        self.replacements = {"cloud": "butt", "Cloud": "Butt", "Butt":"Cloud", "butt": "cloud", "the cloud": "my butt", "The cloud": "My butt"}
+        self.replacements = {"butt": "butt", "Butt": "Butt", "Butt":"Butt", "butt": "butt", "my butt": "my butt", "My butt": "My butt"}
     def MessageStatus(self, msg, status):
         if status == Skype4Py.cmsReceived:
             text = msg.Body
-            if "cloud" in text.lower() or "butt" in text.lower():
+            if "butt" in text.lower() or "butt" in text.lower():
                 newText = self.multiple_replace(self.replacements, text)
                 msg.Chat.SendMessage(newText)
             if text.lower() == "@nsfw":
@@ -47,6 +47,4 @@ if __name__ == "__main__":
         
         while True:
             pass
-#chat = skype.Chat("#stigrk85/$jvlomax;b43a0c90a2592b9b")
 
-#chat.SendMessage("cloud to butt"d
