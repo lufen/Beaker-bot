@@ -21,6 +21,7 @@ class SkypeBot(object):
         self.skype.Attach()
         time.sleep(20)
         self.replacements = {"cloud": "butt", "Cloud": "Butt", "Butt":"Cloud", "butt": "cloud", "the cloud": "my butt", "The cloud": "My butt"}
+        self.tag = "@"
     def MessageStatus(self, msg, status):
         if status == Skype4Py.cmsReceived:
             text = msg.Body
@@ -28,11 +29,19 @@ class SkypeBot(object):
             if "cloud" in text.lower() or "butt" in text.lower():
                 newText = self.multiple_replace(self.replacements, text)
                 msg.Chat.SendMessage(newText)
-            if text.lower() == "@nsfw":
-                url = self.fetch_randNSFW()
-                msg.Chat.SendMessage(url)
-            if "@say:" in text.lower():
-                msg.Chat.SendMessage(text.strip("@say:"))
+            elif text[0] == self.tag:
+                text = text[1:]
+                command = text.split(" ")[0]
+                if command.lower() == "nsfw":
+                    url = self.fetch_randNSFW()
+                    msg.Chat.SendMessage(url)
+                elif command.lower() == "say":
+                    msg.Chat.SendMessage(text[(len(command) + 1):])
+
+                elif command.lower() == "help":
+                    text = "Available functions \n Help\tDisplays this help text\nsay\tMake me say a message\nnsfw\tPrint a random NSFW subreddit"
+                    msg.Chat.SendMessage(text)
+
 
     def multiple_replace(self, dict, text):
         regex = re.compile("(%s)" % "|".join(map(re.escape, dict.keys())))
