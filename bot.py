@@ -2,11 +2,15 @@ import Skype4Py
 import time
 import re
 import httplib
+from apscheduler.scheduler import Scheduler
 skype = Skype4Py.Skype()
 
 
 class SkypeBot(object):
     def __init__(self):
+        self.sched = Scheduler()
+        self.sched.start()
+        self.sched.add_cron_job(self.dailyNSFW, hour=18, minute=0, day_of_week="mon-sun")
         self.skype = Skype4Py.Skype(Events=self, Transport="dbus")
         if self.skype.Client.IsRunning == False:
             print "skype not running, starting skype"
@@ -15,20 +19,21 @@ class SkypeBot(object):
             print "skype is now running"
         self.skype.FriendlyName = "Skype Bot"
         self.skype.Attach()
-        self.tag = "@"
+        time.sleep(20)
         self.replacements = {"cloud": "butt", "Cloud": "Butt", "Butt":"Cloud", "butt": "cloud", "the cloud": "my butt", "The cloud": "My butt"}
     def MessageStatus(self, msg, status):
         if status == Skype4Py.cmsReceived:
             text = msg.Body
-            if "butt" in text.lower() or "butt" in text.lower():
+            print "recieved message: " + text
+            if "cloud" in text.lower() or "butt" in text.lower():
                 newText = self.multiple_replace(self.replacements, text)
                 msg.Chat.SendMessage(newText)
             if text.lower() == "@nsfw":
                 url = self.fetch_randNSFW()
                 msg.Chat.SendMessage(url)
             if "@say:" in text.lower():
-                msg.chat.SendMessage(text.strip("@say:")
-                   
+                msg.Chat.SendMessage(text.strip("@say:"))
+
     def multiple_replace(self, dict, text):
         regex = re.compile("(%s)" % "|".join(map(re.escape, dict.keys())))
         return regex.sub(lambda mo: dict[mo.string[mo.start():mo.end()]], text)
@@ -42,12 +47,13 @@ class SkypeBot(object):
         redirect = conn.getresponse().getheader("Location")
         return redirect
         
-
+    def dailyNSFW(self):
+        chat = self.skype.Chat("#stigrk85/$jvlomax;b43a0c90a2592b9b")
+        chat.SendMessage("Dagens /r/randnsfw: " + self.fetch_randNSFW())
 
 if __name__ == "__main__":
     bot = SkypeBot()
     while True:
-        
-        while True:
-            pass
+        pass        
+       
 
