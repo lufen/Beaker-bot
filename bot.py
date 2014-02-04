@@ -1,42 +1,52 @@
-import Skype4Py
 import time
 import re
 import httplib
-from apscheduler.scheduler import Scheduler
+import os
+import glob
+import Skype4Py
+
+
 skype = Skype4Py.Skype()
 
 
 class SkypeBot(object):
     def __init__(self):
-        self.sched = Scheduler()
-        self.sched.start()
-        self.sched.add_cron_job(self.dailyNSFW, hour=18, minute=0, day_of_week="mon-sun")
+
         self.skype = Skype4Py.Skype(Events=self, Transport="dbus")
         if self.skype.Client.IsRunning == False:
             print "skype not running, starting skype"
             self.skype.Client.Start()
-            time.sleep(60)
+            time.sleep(30)
             print "skype is now running"
         self.skype.FriendlyName = "Skype Bot"
         self.skype.Attach()
+        self.name = "Beaker"
+        self.ctb = cloudToBut.CloudToBut()
+        self.nsfw = nsfw.NSFW(self.skype)
         time.sleep(20)
-        self.replacements = {"cloud": "butt", "Cloud": "Butt", "Butt":"Cloud", "butt": "cloud", "the cloud": "my butt", "The cloud": "My butt"}
+
+        self.enabled_modules = ["cloudToBut, nsfw"]
+        modules = map(__import__, self.enabled_modules)
+
+        print "I'm ready"
+
         self.tag = "@"
     
     def MessageStatus(self, msg, status):
         if status == Skype4Py.cmsReceived:
+            for module in self.enabled_modules:
+
+            self.ctb.message_received(msg, status)
+            self.nsfw.message_received(msg, status)
             text = msg.Body
             print "recieved message: " + text
-            if "cloud" in text.lower() or "butt" in text.lower():
-                newText = self.multiple_replace(self.replacements, text)
-                msg.Chat.SendMessage(newText)
-            elif text[0] == "@":
+           # if "cloud" in text.lower() or "butt" in text.lower():
+             #   newText = self.multiple_replace(self.replacements, text)
+              #  msg.Chat.SendMessage(newText)
+            if text[0] == "@":
                 text = text[1:] #remove the tag from the text
                 command = text.split(" ")[0] #get the command
-                if command.lower() == "nsfw":
-                    url = self.fetch_randNSFW()
-                    msg.Chat.SendMessage(url)
-                elif command.lower() == "say":
+                if command.lower() == "say":
                     repeat_start = len(command) + 1
                     msg.Chat.SendMessage(text[repeat_start:])
 
@@ -78,6 +88,13 @@ class SkypeBot(object):
     def dailyNSFW(self):
         chat = self.skype.Chat("#stigrk85/$jvlomax;b43a0c90a2592b9b")
         chat.SendMessage("Dagens /r/randnsfw: " + self.fetch_randNSFW())
+
+    def load_plugins(self):
+        os.chdir("plugins")
+        plugins = glob.glob("*.py")
+        modules = map(__import__, plugins)
+
+        os.chdir("..")
 
 if __name__ == "__main__":
     bot = SkypeBot()
