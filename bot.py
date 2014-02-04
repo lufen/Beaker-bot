@@ -1,45 +1,47 @@
+from __future__ import print_function
 import time
 import re
 import httplib
 import os
-import glob
 import Skype4Py
-
-
+import ConfigParser
+import inspect
 skype = Skype4Py.Skype()
-
+import plugins.plugin as plugin
 
 class SkypeBot(object):
     def __init__(self):
+        self.name = "Deafult name"
+        self.tag = "@"
+        self.plugin_classlist = []
+        self.enabled_plugins = []
+
+        self.load_settings()
+        self.load_plugins()
+        print("loaded plugins\n Active plugins: {}".format(self.plugin_classlist))
 
         self.skype = Skype4Py.Skype(Events=self, Transport="dbus")
         if self.skype.Client.IsRunning == False:
-            print "skype not running, starting skype"
+            print("skype not running, starting skype")
             self.skype.Client.Start()
             time.sleep(30)
-            print "skype is now running"
+            print("skype is now running")
         self.skype.FriendlyName = "Skype Bot"
         self.skype.Attach()
-        self.name = "Beaker"
-        self.ctb = cloudToBut.CloudToBut()
-        self.nsfw = nsfw.NSFW(self.skype)
+
         time.sleep(20)
 
-        self.enabled_modules = ["cloudToBut, nsfw"]
-        modules = map(__import__, self.enabled_modules)
+        print("I'm ready")
 
-        print "I'm ready"
 
-        self.tag = "@"
     
     def MessageStatus(self, msg, status):
         if status == Skype4Py.cmsReceived:
-            for module in self.enabled_modules:
+            for c in self.plugin_classlist:
+                c.message_received(msg, status)
 
-            self.ctb.message_received(msg, status)
-            self.nsfw.message_received(msg, status)
             text = msg.Body
-            print "recieved message: " + text
+            print("recieved message: " + text)
            # if "cloud" in text.lower() or "butt" in text.lower():
              #   newText = self.multiple_replace(self.replacements, text)
               #  msg.Chat.SendMessage(newText)
@@ -90,11 +92,32 @@ class SkypeBot(object):
         chat.SendMessage("Dagens /r/randnsfw: " + self.fetch_randNSFW())
 
     def load_plugins(self):
-        os.chdir("plugins")
-        plugins = glob.glob("*.py")
-        modules = map(__import__, plugins)
+        print("loading settings")
+        for root, dirs, files in os.walk("plugins"):
+            candidates = [fname for fname in files if fname.endswith(".py") and not fname.startswith("__")]
+            for c in candidates:
+                modname = os.path.splitext(c)[0]
+                try:
+                    module = __import__(modname)
+                except (ImportError, NotImplementedError):
+                    continue
 
-        os.chdir("..")
+                for cls in dir(module):
+                    cls = getattr(module, cls)(self.skype)
+                    if inspect.isclass(cls) and inspect.getmodule(cls) == module and issubclass(cls, plugin):
+                        print("found in {f}: {c}".format(f=module.__name__, c=cls))
+                        self.plugin_classlist.append(cls)
+
+    def load_settings(self):
+        print("loading settings")
+        config = ConfigParser.RawConfigParser()
+        config.read("settings.conf")
+        self.name = config.get("general", "name")
+        self.tag = config.get("general", "tag")
+        plugins = config.options("plugins")
+        for plugin in plugins:
+            if config.getboolean("plugins", plugin):
+                self.enabled_plugins.append(plugin)
 
 if __name__ == "__main__":
     bot = SkypeBot()

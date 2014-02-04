@@ -1,12 +1,12 @@
 __author__ = 'george'
 import httplib
-
+from plugin import Plugin
 from apscheduler.scheduler import Scheduler
 
 
 
 
-class NSFW():
+class NSFW(Plugin):
     def __init__(self, skype):
         self.daily_channels = ["#stigrk85/$jvlomax;b43a0c90a2592b9b"]
         self.skype = skype
