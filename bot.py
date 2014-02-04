@@ -30,7 +30,7 @@ class SkypeBot(object):
             if "cloud" in text.lower() or "butt" in text.lower():
                 newText = self.multiple_replace(self.replacements, text)
                 msg.Chat.SendMessage(newText)
-            elif text[0] == self.tag:
+            elif text[0] == "@":
                 text = text[1:] #remove the tag from the text
                 command = text.split(" ")[0] #get the command
                 if command.lower() == "nsfw":
@@ -44,7 +44,24 @@ class SkypeBot(object):
                     text = "Available functions \nHelp    Displays this help text\nsay    Make me say a message\nnsfw     Print a random NSFW subreddit"
                     msg.Chat.SendMessage(text)
 
-
+                elif command.lower() == "shutup":
+                    try:
+                        down_time = int(text.split(" ")[1])
+                    except:
+                        msg.Chat.SendMessage("Please provide a valid integer")
+                    if down_time > 3600:
+                        msg.Chat.SendMessage("Please provide a time between 0 and 3600 (1 hour)")
+                    else:
+                        msg.Chat.SendMessage("shutting up for " + str(down_time) + " seconds")
+                        time.sleep(down_time)
+                elif command.lower() == "isbanishedoutyet":
+                    cur_time = time.localtime()
+                    if cur_time.tm_mday < 18:
+                        time_left = 18-cur_time.tm_mday
+                        hours_left = 23 - cur_time.tm_hour
+                        msg.Chat.SendMessage("%d days and %d hours left until bansihed comes out" % (time_left, hours_left))
+                    else:
+                        msg.Chat.SendMessage("Banished is out\nhttp://store.steampowered.com/app/242920/")    
     def multiple_replace(self, dict, text):
         regex = re.compile("(%s)" % "|".join(map(re.escape, dict.keys())))
         return regex.sub(lambda mo: dict[mo.string[mo.start():mo.end()]], text)
