@@ -8,7 +8,7 @@ class Plugin(object):
     def message_received(self, msg, status):
         pass
 
-    @abstractmethod
+    
     def help(self):
         pass
 

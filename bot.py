@@ -13,6 +13,8 @@ class SkypeBot(object):
     def __init__(self):
         self.name = "Deafult name"
         self.tag = "@"
+        self.skype = Skype4Py.Skype(Events=self, Transport="dbus")
+
         self.plugin_classlist = []
         self.enabled_plugins = []
 
@@ -20,7 +22,6 @@ class SkypeBot(object):
         self.load_plugins()
         print("loaded plugins\n Active plugins: {}".format(self.plugin_classlist))
 
-        self.skype = Skype4Py.Skype(Events=self, Transport="dbus")
         if self.skype.Client.IsRunning == False:
             print("skype not running, starting skype")
             self.skype.Client.Start()
@@ -96,18 +97,28 @@ class SkypeBot(object):
         for root, dirs, files in os.walk("plugins"):
             candidates = [fname for fname in files if fname.endswith(".py") and not fname.startswith("__")]
             for c in candidates:
-                modname = os.path.splitext(c)[0]
+                modname = "plugins.{}".format(os.path.splitext(c)[0])
+                print("found module {}".format(modname))
                 try:
+                    
                     module = __import__(modname)
                 except (ImportError, NotImplementedError):
+                    print("exception")
                     continue
 
                 for cls in dir(module):
-                    cls = getattr(module, cls)(self.skype)
-                    if inspect.isclass(cls) and inspect.getmodule(cls) == module and issubclass(cls, plugin):
+                    print("current module: {} class: {}".format(module, cls))
+                    
+                    cls = getattr(module, cls)
+                    print("dir cls: {}".format(dir(cls)))
+                    if inspect.isclass(cls) and inspect.getmodule(cls) == module and instance.__name__ != plugin.__name__:
                         print("found in {f}: {c}".format(f=module.__name__, c=cls))
                         self.plugin_classlist.append(cls)
-
+                    else:
+                        print("is cls: {}".format(inspect.isclass(cls)))
+                        print("module? {}".format(inspect.getmodule(cls)))
+                        print("nope")
+        os.chdir("..")
     def load_settings(self):
         print("loading settings")
         config = ConfigParser.RawConfigParser()
