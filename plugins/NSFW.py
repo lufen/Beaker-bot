@@ -6,7 +6,7 @@ from apscheduler.scheduler import Scheduler
 
 
 
-class NSFW(Plugin):
+class NSFW():
     def __init__(self, skype):
         self.daily_channels = ["#stigrk85/$jvlomax;b43a0c90a2592b9b"]
         self.skype = skype
@@ -18,8 +18,12 @@ class NSFW(Plugin):
         text = msg.Body
         if text[0] == "@":
             text = text[1:]
-            command = text.split[" "]
-            if command.lower == "nsfw":
+            try:
+                command = text.split(" ")[0]
+            except:
+                print("exception in nsfw")
+                command = text
+            if command.lower() == "nsfw":
                 url = self.fetch_randNSFW()
                 msg.Chat.SendMessage(url)
 

@@ -2,12 +2,12 @@ from __future__ import print_function
 import time
 import re
 import httplib
-import os
+import os, sys
 import Skype4Py
 import ConfigParser
-import inspect
 skype = Skype4Py.Skype()
-import plugins.plugin as plugin
+import atexit
+
 
 class SkypeBot(object):
     def __init__(self):
@@ -28,13 +28,13 @@ class SkypeBot(object):
             time.sleep(30)
             print("skype is now running")
         self.skype.FriendlyName = "Skype Bot"
+        self.skype._SetTimeout = 20
         self.skype.Attach()
 
-        time.sleep(20)
 
         print("I'm ready")
-
-
+        self.skype.ChangeUserStatus(Skype4Py.cusOnline)
+        atexit.register(self.on_exit)
     
     def MessageStatus(self, msg, status):
         if status == Skype4Py.cmsReceived:
@@ -43,9 +43,6 @@ class SkypeBot(object):
 
             text = msg.Body
             print("recieved message: " + text)
-           # if "cloud" in text.lower() or "butt" in text.lower():
-             #   newText = self.multiple_replace(self.replacements, text)
-              #  msg.Chat.SendMessage(newText)
             if text[0] == "@":
                 text = text[1:] #remove the tag from the text
                 command = text.split(" ")[0] #get the command
@@ -93,32 +90,19 @@ class SkypeBot(object):
         chat.SendMessage("Dagens /r/randnsfw: " + self.fetch_randNSFW())
 
     def load_plugins(self):
-        print("loading settings")
+        # print("loading plugins")
+        sys.path.append("plugins")
         for root, dirs, files in os.walk("plugins"):
-            candidates = [fname for fname in files if fname.endswith(".py") and not fname.startswith("__")]
+            candidates = [fname for fname in files if fname.endswith(".py") and not fname.startswith(("__"))]
             for c in candidates:
-                modname = "plugins.{}".format(os.path.splitext(c)[0])
-                print("found module {}".format(modname))
-                try:
-                    
-                    module = __import__(modname)
-                except (ImportError, NotImplementedError):
-                    print("exception")
+                if c == "plugin.py":
                     continue
+                modname = os.path.splitext(c)[0]
+                module = __import__(modname)
+                cls = getattr(module, modname)
+                instance = cls(self.skype)
+                self.plugin_classlist.append(instance)
 
-                for cls in dir(module):
-                    print("current module: {} class: {}".format(module, cls))
-                    
-                    cls = getattr(module, cls)
-                    print("dir cls: {}".format(dir(cls)))
-                    if inspect.isclass(cls) and inspect.getmodule(cls) == module and instance.__name__ != plugin.__name__:
-                        print("found in {f}: {c}".format(f=module.__name__, c=cls))
-                        self.plugin_classlist.append(cls)
-                    else:
-                        print("is cls: {}".format(inspect.isclass(cls)))
-                        print("module? {}".format(inspect.getmodule(cls)))
-                        print("nope")
-        os.chdir("..")
     def load_settings(self):
         print("loading settings")
         config = ConfigParser.RawConfigParser()
@@ -129,6 +113,10 @@ class SkypeBot(object):
         for plugin in plugins:
             if config.getboolean("plugins", plugin):
                 self.enabled_plugins.append(plugin)
+
+    def on_exit(self):
+        print("on_exit")
+        self.skype.ChangeUserStatus(Skype4Py.cusAway)
 
 if __name__ == "__main__":
     bot = SkypeBot()

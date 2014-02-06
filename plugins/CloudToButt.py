@@ -1,7 +1,7 @@
 import re
 from plugin import Plugin
 
-class CloudToButt(Plugin):
+class CloudToButt():
     def __init__(self, skype):
         self.replacements = {"cloud": "butt", "Cloud": "Butt", "Butt":"Cloud", "butt": "cloud", "the cloud": "my butt", "The cloud": "My butt"}
 
