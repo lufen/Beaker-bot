@@ -1,8 +1,9 @@
 import re
-from plugin import Plugin
+from baseclass import Plugin
 
-class CloudToButt():
+class CloudToButt(Plugin):
     def __init__(self, skype):
+        super(CloudToButt, self).__init__(skype)
         self.replacements = {"cloud": "butt", "Cloud": "Butt", "Butt":"Cloud", "butt": "cloud", "the cloud": "my butt", "The cloud": "My butt"}
 
     def message_received(self, msg, status):

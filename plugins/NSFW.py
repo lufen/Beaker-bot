@@ -1,17 +1,18 @@
 __author__ = 'george'
 import httplib
-from plugin import Plugin
+from baseclass import Plugin
 from apscheduler.scheduler import Scheduler
 
 
 
 
-class NSFW():
+class NSFW(Plugin):
     def __init__(self, skype):
         self.daily_channels = ["#stigrk85/$jvlomax;b43a0c90a2592b9b"]
         self.skype = skype
         self.sched = Scheduler()
         self.sched.start()
+        self.plugin_name = "nsfw"
         self.sched.add_cron_job(self.dailyNSFW, hour=13, minute=32, day_of_week="mon-sun")
 
     def message_received(self, msg, status):
@@ -36,6 +37,5 @@ class NSFW():
 
     def dailyNSFW(self):
         for channel in self.daily_channels:
-
             chat = self.skype.Chat(channel)
             chat.SendMessage("Dagens /r/randnsfw: " + self.fetch_randNSFW())
