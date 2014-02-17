@@ -3,7 +3,7 @@ Beaker-bot
 
 Skype Python bot
 
-Currently only has But-to-butt functionality and repsonds to "@nsfw" with a random nsfw subreddit
+Supports plugins written in python. The plugins are dynamicly loaded
 
 ========
 Plugins:
