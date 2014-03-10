@@ -5,9 +5,9 @@ from abc import ABCMeta, abstractmethod
 class Plugin(object):
     __metaclass__ = ABCMeta
 
-    def __init__(self, skype):
+    def __init__(self, skype, command=""):
         self.skype = skype
-        #self.tag = tag
+        self.command = command
 
 
     @abstractmethod

@@ -3,7 +3,7 @@ from baseclass import Plugin
 import time
 class Banished(Plugin):
     def __init__(self, skype):
-        self.skype = skype
+        super(Banished, self).__init__(skype)
 
     def message_received(self, msg, status):
         text = msg.Body
@@ -13,7 +13,7 @@ class Banished(Plugin):
             if command.lower() == "isbanishedoutyet":
                 cur_time = time.localtime()
                 if cur_time.tm_mday < 18:
-                    time_left = 18-cur_time.tm_mday
+                    time_left = 18 - cur_time.tm_mday
                     hours_left = 20 - cur_time.tm_hour
                     msg.Chat.SendMessage("%d days and %d hours left until banished comes out" % (time_left, hours_left))
                 else:
