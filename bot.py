@@ -6,7 +6,7 @@ import os, sys
 import Skype4Py
 import ConfigParser
 
-skype = Skype4Py.Skype()
+#skype = Skype4Py.Skype()
 import atexit
 
 
@@ -14,7 +14,8 @@ class SkypeBot(object):
     def __init__(self):
         self.name = "Default name"
         self.tag = "@"
-        self.skype = Skype4Py.Skype(Events=self, Transport="dbus")
+        #self.skype = Skype4Py.Skype(Events=self, Transport="dbus")
+        self.skype = Skype4Py.Skype(Events=self)
 
         self.plugin_classlist = []
         self.enabled_plugins = []
