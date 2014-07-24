@@ -14,5 +14,5 @@ class Codingexcuse(Plugin):
             command = text.split(" ")[0] #get the command
             if command.lower() == "codingexcuse":
                   r = requests.get(self.url, headers=self.headers)
-                  msg.Chat.SendMessage(r.json["excuse"])
+                  msg.Chat.SendMessage(r.json()["excuse"])
                 
