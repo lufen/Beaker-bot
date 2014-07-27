@@ -24,10 +24,17 @@ class Wikipedia(Plugin):
             except:
                 print("exception in wikipedia")
                 command = text
-            if command.lower() == "wikipedia random":
-                url = self.fetch_randwiki()
-                msg.Chat.SendMessage(url)
-
+            if command.lower() == "wikipedia":
+                terms = text.split(" ")[1:]
+                if len(terms) == 1 and terms[0] == "random":
+                    url = self.fetch_randwiki()
+                    msg.Chat.SendMessage(url)
+                else:
+                    page = wikipedia.page(" ".join(terms))
+                    if page:
+                        msg.Chat.SendMessage(page.url)
+                    else:
+                        msg.Chat.SendMessage("Could not find requested page")
 
     def fetch_randWiki(self):
         r = requests.get("http://en.wikipedia.org/wiki/Special:Random")
