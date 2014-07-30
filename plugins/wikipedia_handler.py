@@ -2,9 +2,9 @@ __author__ = 'george'
 import httplib
 from baseclass import Plugin
 from apscheduler.scheduler import Scheduler
-
-
-
+import wikipedia as wiki
+import requests
+import urllib
 
 class Wikipedia(Plugin):
     def __init__(self, skype):
@@ -26,15 +26,21 @@ class Wikipedia(Plugin):
                 command = text
             if command.lower() == "wikipedia":
                 terms = text.split(" ")[1:]
-                if len(terms) == 1 and terms[0] == "random":
-                    url = self.fetch_randwiki()
+                print(terms)
+                if (len(terms) == 1 and terms[0] == "random") or not terms:
+                    url = self.fetch_randWiki()
                     msg.Chat.SendMessage(url)
                 else:
-                    page = wikipedia.page(" ".join(terms))
-                    if page:
-                        msg.Chat.SendMessage(page.url)
-                    else:
-                        msg.Chat.SendMessage("Could not find requested page")
+                    try:
+                        page = wiki.wikipedia.page(" ".join(terms))
+                        if page.url:
+                            msg.Chat.SendMessage(urllib.unquote(page.url))
+                        else:
+                            msg.Chat.SendMessage("Could not find any results for {}".format(" ".join(terms)))
+                    except wiki.exceptions.DisambiguationError:
+                        msg.Chat.SendMessage("Your search is disambigous")
+                    except wiki.exceptions.PageError:
+                         msg.Chat.SendMessage("Could not find any results for {}".format(" ".join(terms)))       
 
     def fetch_randWiki(self):
         r = requests.get("http://en.wikipedia.org/wiki/Special:Random")
@@ -44,3 +50,8 @@ class Wikipedia(Plugin):
         for channel in self.daily_channels:
             chat = self.skype.Chat(channel)
             chat.SendMessage("Dagens random wikipedia: " + self.fetch_randWiki())
+
+
+        
+   
+    
