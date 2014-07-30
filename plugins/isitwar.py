@@ -12,19 +12,18 @@ class IsItWar(Plugin):
         self.sched = Scheduler()
         self.sched.start()
         self.sched.add_interval_job(self.is_it_war, minutes=10)
-    def message_received(self, msg, status):
-        text = msg.Body
-        if text[0] == "@":
-            text = text[1:] #remove the tag from the text
-            command = text.split(" ")[0] #get the command
-            if command.lower() == "isitwaryet":
-                res = urllib.urlopen("http://www.bbc.co.uk/news")
-                text = res.read()    
-                if "declares war" in text.lower():
-                    msg.Chat.SendMessage("Brace your selves, mother Russia is coming")
-                else:
-                    msg.Chat.SendMessage(choice(self.falseMessages))
-    def is_it_war():
+        self.command = "isitwaryet"
+
+    def message_received(self, args, status, msg):
+
+        res = urllib.urlopen("http://www.bbc.co.uk/news")
+        text = res.read()
+        if "declares war" in text.lower():
+            msg.Chat.SendMessage("Brace your selves, mother Russia is coming")
+        else:
+            msg.Chat.SendMessage(choice(self.falseMessages))
+
+    def is_it_war(self):
         print "checking if war"
         res = urllib.urlopen("http://www.bbc.co.uk")
         text = res.read()

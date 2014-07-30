@@ -12,35 +12,24 @@ class Wikipedia(Plugin):
         self.daily_channels = ["#stigrk85/$jvlomax;b43a0c90a2592b9b"]
         self.sched = Scheduler()
         self.sched.start()
-        self.plugin_name = "wikipedia"
+        self.command = "wikipedia"
         self.sched.add_cron_job(self.dailyWikipedia, hour=18, minute=0, day_of_week="mon-sun")
 
-    def message_received(self, msg, status):
-        text = msg.Body
-        if text[0] == "@":
-            text = text[1:]
+    def message_received(self, args, status, msg):
+        if (len(args) == 1 and args[0] == "random") or not args:
+            url = self.fetch_randWiki()
+            msg.Chat.SendMessage(url)
+        else:
             try:
-                command = text.split(" ")[0]
-            except:
-                print("exception in wikipedia")
-                command = text
-            if command.lower() == "wikipedia":
-                terms = text.split(" ")[1:]
-                print(terms)
-                if (len(terms) == 1 and terms[0] == "random") or not terms:
-                    url = self.fetch_randWiki()
-                    msg.Chat.SendMessage(url)
+                page = wiki.wikipedia.page(" ".join(args))
+                if page.url:
+                    msg.Chat.SendMessage(urllib.unquote(page.url))
                 else:
-                    try:
-                        page = wiki.wikipedia.page(" ".join(terms))
-                        if page.url:
-                            msg.Chat.SendMessage(urllib.unquote(page.url))
-                        else:
-                            msg.Chat.SendMessage("Could not find any results for {}".format(" ".join(terms)))
-                    except wiki.exceptions.DisambiguationError:
-                        msg.Chat.SendMessage("Your search is disambigous")
-                    except wiki.exceptions.PageError:
-                         msg.Chat.SendMessage("Could not find any results for {}".format(" ".join(terms)))       
+                    msg.Chat.SendMessage("Could not find any results for {}".format(" ".join(args)))
+            except wiki.exceptions.DisambiguationError:
+                msg.Chat.SendMessage("Your search is disambiguous")
+            except wiki.exceptions.PageError:
+                 msg.Chat.SendMessage("Could not find any results for {}".format(" ".join(args)))
 
     def fetch_randWiki(self):
         r = requests.get("http://en.wikipedia.org/wiki/Special:Random")
@@ -50,8 +39,3 @@ class Wikipedia(Plugin):
         for channel in self.daily_channels:
             chat = self.skype.Chat(channel)
             chat.SendMessage("Dagens random wikipedia: " + self.fetch_randWiki())
-
-
-        
-   
-    

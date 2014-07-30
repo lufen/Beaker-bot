@@ -12,21 +12,12 @@ class NSFW(Plugin):
         self.daily_channels = ["#stigrk85/$jvlomax;b43a0c90a2592b9b"]
         self.sched = Scheduler()
         self.sched.start()
-        self.plugin_name = "nsfw"
+        self.command = "nsfw"
         self.sched.add_cron_job(self.dailyNSFW, hour=19, minute=0, day_of_week="mon-sun")
 
-    def message_received(self, msg, status):
-        text = msg.Body
-        if text[0] == "@":
-            text = text[1:]
-            try:
-                command = text.split(" ")[0]
-            except:
-                print("exception in nsfw")
-                command = text
-            if command.lower() == "nsfw":
-                url = self.fetch_randNSFW()
-                msg.Chat.SendMessage(url)
+    def message_received(self, args, status, msg):
+        url = self.fetch_randNSFW()
+        msg.Chat.SendMessage(url)
 
 
     def fetch_randNSFW(self):
