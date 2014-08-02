@@ -47,14 +47,11 @@ class SkypeBot(object):
             print("recieved message: " + msg.Body)
 
             if command.lower() == "help":
-                for c in self.plugin_classlist:
-                    if len(args) >= 1:
-                        if c.command == args[0]:
-                            c.help()
-                            return
-                else:
-                    for c in self.plugin_classlist:
-                        c.help(msg, status)
+                if not args:
+                    msg.Chat.SendMessage("This is beaker bot help. For a list of avilable commands, type {}help commands".format(self.tag))
+                if args[0].lower() == "commands":
+                    commands = ["{}{}".format(self.tag, x.command) for x in self.plugin_classlist]
+                    msg.Chat.SendMessage("available commands = {}".format(", ".join(commands)))
             elif command.lower() == "plugins":
                 msg.Chat.SendMessage("Enabled plugins:")
                 msg.Chat.SendMessage(print([c.command for c in self.plugin_classlist]))
