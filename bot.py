@@ -39,7 +39,7 @@ class SkypeBot(object):
             args = msg.Body.split(" ")[1:]
             for c in self.plugin_classlist:
                 if c.command == command or not c.uses_command:
-                    c.message_received(args, status, msg.Body)
+                    c.message_received(args, status, msg)
                     return
 
             #internal handling for bot spesific commands

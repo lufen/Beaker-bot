@@ -8,7 +8,7 @@ class Plugin(object):
     def __init__(self, skype, command=""):
         self.skype = skype
         self.command = command
-        self.uses_commad = True
+        self.uses_command = True
 
     @abstractmethod
     def message_received(self, args, status, msg):
