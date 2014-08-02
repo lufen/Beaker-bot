@@ -35,17 +35,19 @@ class SkypeBot(object):
         self.enabled_plugins = self.plugin_classlist
 
     def MessageStatus(self, msg, status):
+        print("received message: {}".format(msg.body))
         if status == Skype4Py.cmsReceived and msg.Body[0] == self.tag:
             command = msg.Body.split(" ")[0][1:].lower()
             args = msg.Body.split(" ")[1:]
-            for c in self.enabled_classlist:
+            for c in self.enabled_plugins:
                 if c.command == command or not c.uses_command:
                     c.message_received(args, status, msg)
-                    return
+                    if c.uses_command:
+                        return
 
             #internal handling for bot spesific commands
 
-            print("recieved message: " + msg.Body)
+
 
             if command.lower() == "help":
                 if not args:
@@ -53,6 +55,7 @@ class SkypeBot(object):
                 if args[0].lower() == "commands":
                     commands = ["{}{}".format(self.tag, x.command) for x in self.plugin_classlist if x.uses_command]
                     msg.Chat.SendMessage("available commands: {}".format(", ".join(commands)))
+                    return
             elif command.lower() == "plugins":
                 self.pluginHandler(args, msg)
 
