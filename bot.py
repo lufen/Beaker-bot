@@ -19,7 +19,8 @@ class SkypeBot(object):
 
         self.load_settings()
         self.load_plugins()
-        print("loaded plugins\n Active plugins: {}".format(self.plugin_classlist))
+        plugin_names = [type(x).__name__ for x in self.plugin_classlist]
+        print("loaded plugins\n Active plugins: {}".format(" ".join(plugin_names)))
         if not self.skype.Client.IsRunning:
             print("skype not running, starting skype")
             self.skype.Client.Start()
@@ -31,7 +32,7 @@ class SkypeBot(object):
         print("I'm ready")
         self.skype.ChangeUserStatus(Skype4Py.cusOnline)
         atexit.register(self.on_exit)
-        self.enabled_plugins = self.plugin_classlist
+        #self.enabled_plugins = self.plugin_classlist
 
     def MessageStatus(self, msg, status):
         if status == Skype4Py.cmsReceived and msg.Body[0] == self.tag:
@@ -54,7 +55,8 @@ class SkypeBot(object):
                     msg.Chat.SendMessage("available commands: {}".format(", ".join(commands)))
             elif command.lower() == "plugins":
                 msg.Chat.SendMessage("Enabled plugins:")
-                msg.Chat.SendMessage("{}".format(", ".join([c.command for c in self.enabled_plugins])))
+                plugins = [c.command for c in self.enabled_plugins]
+                msg.Chat.SendMessage("{}".format(", ".join(plugins)))
 
     def load_plugins(self):
         # print("loading plugins")

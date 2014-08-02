@@ -3,7 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="ab3b610c-1cc0-43f3-bd39-5dda4fdf8056" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/bot.py" afterPath="$PROJECT_DIR$/bot.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/plugins/cloudtobutt.py" afterPath="$PROJECT_DIR$/plugins/cloudtobutt.py" />
     </list>
     <ignored path="Beaker-bot.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -39,8 +38,8 @@
       <file leaf-file-name="bot.py" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/bot.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.64272213" vertical-offset="102" max-vertical-offset="1700">
-              <caret line="51" column="49" selection-start-line="51" selection-start-column="49" selection-end-line="51" selection-end-column="49" />
+            <state vertical-scroll-proportion="0.46597353" vertical-offset="0" max-vertical-offset="1734">
+              <caret line="34" column="9" selection-start-line="34" selection-start-column="9" selection-end-line="34" selection-end-column="9" />
               <folding />
             </state>
           </provider>
@@ -582,7 +581,7 @@
         <state vertical-scroll-proportion="0.0" vertical-offset="306" max-vertical-offset="486">
           <caret line="17" column="55" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <element signature="e#0#37#0" expanded="true" />
+            <element signature="e#0#37#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -646,7 +645,7 @@
         <state vertical-scroll-proportion="0.0" vertical-offset="342" max-vertical-offset="450">
           <caret line="19" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <element signature="e#0#37#0" expanded="true" />
+            <element signature="e#0#37#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -703,7 +702,7 @@
         <state vertical-scroll-proportion="0.0" vertical-offset="342" max-vertical-offset="450">
           <caret line="19" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <element signature="e#0#37#0" expanded="true" />
+            <element signature="e#0#37#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -818,7 +817,7 @@
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="476">
           <caret line="10" column="31" selection-start-line="10" selection-start-column="31" selection-end-line="10" selection-end-column="31" />
           <folding>
-            <element signature="e#0#37#0" expanded="true" />
+            <element signature="e#0#37#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -922,8 +921,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/bot.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.64272213" vertical-offset="102" max-vertical-offset="1700">
-          <caret line="51" column="49" selection-start-line="51" selection-start-column="49" selection-end-line="51" selection-end-column="49" />
+        <state vertical-scroll-proportion="0.46597353" vertical-offset="0" max-vertical-offset="1734">
+          <caret line="34" column="9" selection-start-line="34" selection-start-column="9" selection-end-line="34" selection-end-column="9" />
           <folding />
         </state>
       </provider>
