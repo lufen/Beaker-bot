@@ -35,7 +35,7 @@ class SkypeBot(object):
         self.enabled_plugins = self.plugin_classlist
 
     def MessageStatus(self, msg, status):
-        print("received message: {}".format(msg.body))
+        print("received message: {}".format(msg.Body))
         if status == Skype4Py.cmsReceived and msg.Body[0] == self.tag:
             command = msg.Body.split(" ")[0][1:].lower()
             args = msg.Body.split(" ")[1:]
@@ -74,6 +74,8 @@ class SkypeBot(object):
                             if module.command == plugin:
                                 self.disabled_plugins.append(module)
                                 self.enabled_plugins.remove(module)
+                                msg.Chat.SendMessage("{} has now been enabled".format(plugin))
+                                return
 
                 elif args[0] == "disable":
                     if plugin in self.disabled_plugins:
@@ -83,6 +85,8 @@ class SkypeBot(object):
                             if module.command == plugin:
                                 self.enabled_plugins.append(module)
                                 self.disabled_plugins.remove(module)
+                                msg.Chat.SendMessage("{} has now been disabled".format(plugin))
+                                return
 
                 else:
                     msg.Chat.Send("Usage: @plugin <disable|enable> <plugin name>")
