@@ -31,7 +31,7 @@ class SkypeBot(object):
         print("I'm ready")
         self.skype.ChangeUserStatus(Skype4Py.cusOnline)
         atexit.register(self.on_exit)
-
+        self.enabled_plugins = self.plugin_classlist
 
     def MessageStatus(self, msg, status):
         if status == Skype4Py.cmsReceived and msg.Body[0] == self.tag:
@@ -50,11 +50,11 @@ class SkypeBot(object):
                 if not args:
                     msg.Chat.SendMessage("This is beaker bot help. For a list of avilable commands, type {}help commands".format(self.tag))
                 if args[0].lower() == "commands":
-                    commands = ["{}{}".format(self.tag, x.command) for x in self.plugin_classlist]
-                    msg.Chat.SendMessage("available commands = {}".format(", ".join(commands)))
+                    commands = ["{}{}".format(self.tag, x.command) for x in self.plugin_classlist if x.uses_command]
+                    msg.Chat.SendMessage("available commands: {}".format(", ".join(commands)))
             elif command.lower() == "plugins":
                 msg.Chat.SendMessage("Enabled plugins:")
-                msg.Chat.SendMessage(print([c.command for c in self.plugin_classlist]))
+                msg.Chat.SendMessage("{}".format(", ".join([c.command for c in self.enabled_plugins])))
 
     def load_plugins(self):
         # print("loading plugins")

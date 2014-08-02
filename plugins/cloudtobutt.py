@@ -6,7 +6,7 @@ class CloudToButt(Plugin):
         super(CloudToButt, self).__init__(skype)
         self.replacements = {"cloud": "butt", "Cloud": "Butt", "Butt":"Cloud", "butt": "cloud", "the cloud": "my butt", "The cloud": "My butt"}
         self.command = "cloud2butt"
-        self.uses_commad = False
+        self.uses_command = False
 
     def message_received(self, args, status, msg):
         text = msg.Body
