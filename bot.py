@@ -32,13 +32,13 @@ class SkypeBot(object):
         print("I'm ready")
         self.skype.ChangeUserStatus(Skype4Py.cusOnline)
         atexit.register(self.on_exit)
-        #self.enabled_plugins = self.plugin_classlist
+        self.enabled_plugins = self.plugin_classlist
 
     def MessageStatus(self, msg, status):
         if status == Skype4Py.cmsReceived and msg.Body[0] == self.tag:
             command = msg.Body.split(" ")[0][1:].lower()
             args = msg.Body.split(" ")[1:]
-            for c in self.plugin_classlist:
+            for c in self.enabled_classlist:
                 if c.command == command or not c.uses_command:
                     c.message_received(args, status, msg)
                     return
@@ -54,9 +54,42 @@ class SkypeBot(object):
                     commands = ["{}{}".format(self.tag, x.command) for x in self.plugin_classlist if x.uses_command]
                     msg.Chat.SendMessage("available commands: {}".format(", ".join(commands)))
             elif command.lower() == "plugins":
-                msg.Chat.SendMessage("Enabled plugins:")
-                plugins = [c.command for c in self.enabled_plugins]
-                msg.Chat.SendMessage("{}".format(", ".join(plugins)))
+                self.pluginHandler(args, msg)
+
+
+    def pluginHandler(self, args, msg):
+       #TODO: PLease replace with some try catch, or something that doesn't make python look like it was smashed against a wall
+        if args:
+            if len(args) > 1:
+                plugin = args[1]
+
+                if args[0] == "enable":
+                    if plugin in self.enabled_plugins:
+                        msg.Chat.SendMessage("{} is already enabled".format(plugin))
+                    else:
+                        for module in self.disabled_plugins:
+                            if module.command == plugin:
+                                self.disabled_plugins.append(module)
+                                self.enabled_plugins.remove(module)
+
+                elif args[0] == "disable":
+                    if plugin in self.disabled_plugins:
+                        msg.Chat.SendMessage("{} is already disabled".format(plugin))
+                    else:
+                        for module in self.disabled_plugins:
+                            if module.command == plugin:
+                                self.enabled_plugins.append(module)
+                                self.disabled_plugins.remove(module)
+
+                else:
+                    msg.Chat.Send("Usage: @plugin <disable|enable> <plugin name>")
+
+            else:
+                msg.Char.SendMessage("Usage: @plugin <disable|enable> <plugin name>".format(args[0]))
+        else:
+            msg.Chat.SendMessage("Enabled plugins:")
+            plugins = [c.command for c in self.enabled_plugins]
+            msg.Chat.SendMessage("{}".format(", ".join(plugins)))
 
     def load_plugins(self):
         # print("loading plugins")
