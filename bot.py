@@ -72,8 +72,8 @@ class SkypeBot(object):
                     else:
                         for module in self.disabled_plugins:
                             if module.command == plugin:
-                                self.disabled_plugins.append(module)
-                                self.enabled_plugins.remove(module)
+                                self.enabled_plugins.append(module)
+                                self.disabled_plugins.remove(module)
                                 msg.Chat.SendMessage("{} has now been enabled".format(plugin))
                                 return
 
@@ -81,10 +81,10 @@ class SkypeBot(object):
                     if plugin in self.disabled_plugins:
                         msg.Chat.SendMessage("{} is already disabled".format(plugin))
                     else:
-                        for module in self.disabled_plugins:
+                        for module in self.enabled_plugins:
                             if module.command == plugin:
-                                self.enabled_plugins.append(module)
-                                self.disabled_plugins.remove(module)
+                                self.disabled_plugins.append(module)
+                                self.enabled_plugins.remove(module)
                                 msg.Chat.SendMessage("{} has now been disabled".format(plugin))
                                 return
 
