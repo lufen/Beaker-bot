@@ -13,3 +13,6 @@ class IsItFriday(Plugin):
             msg.Chat.SendMessage("Yes it is friday. We so excited")
         else:
             msg.Chat.SendMessage("No, it is not friday")
+
+    def help(self, msg):
+        msg.Chat.SendMessage("Usage: @isitfrday \nWill tell you when it is friday ")

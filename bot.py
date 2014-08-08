@@ -56,6 +56,10 @@ class SkypeBot(object):
                     commands = ["{}{}".format(self.tag, x.command) for x in self.plugin_classlist if x.uses_command]
                     msg.Chat.SendMessage("available commands: {}".format(", ".join(commands)))
                     return
+                else:
+                    for plugin in self.enabled_plugins:
+                        if plugin == args[0]:
+                            plugin.help()
             elif command.lower() == "plugins":
                 self.pluginHandler(args, msg)
 

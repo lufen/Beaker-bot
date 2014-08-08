@@ -33,3 +33,5 @@ class IsItWar(Plugin):
         
 
 
+    def help(self, msg):
+        msg.Chat.SendMessage("usage: @isitwaryet\nWill tell you if Russia has declared war")
