@@ -59,7 +59,7 @@ class SkypeBot(object):
                 else:
                     for plugin in self.enabled_plugins:
                         if plugin == args[0]:
-                            plugin.help()
+                            plugin.help(msg)
             elif command.lower() == "plugins":
                 self.pluginHandler(args, msg)
 
