@@ -71,7 +71,8 @@ class SkypeBot(object):
                 plugin = args[1]
 
                 if args[0] == "enable":
-                    if plugin in self.enabled_plugins:
+                    print("enable")
+                    if plugin in [c.command for c in self.enabled_plugins]:
                         msg.Chat.SendMessage("{} is already enabled".format(plugin))
                     else:
                         for module in self.disabled_plugins:
@@ -82,7 +83,8 @@ class SkypeBot(object):
                                 return
 
                 elif args[0] == "disable":
-                    if plugin in self.disabled_plugins:
+                    print("disable")
+                    if plugin in [c.command for c in self.disabled_plugins]:
                         msg.Chat.SendMessage("{} is already disabled".format(plugin))
                     else:
                         for module in self.enabled_plugins:
@@ -96,7 +98,7 @@ class SkypeBot(object):
                     msg.Chat.Send("Usage: @plugin <disable|enable> <plugin name>")
 
             else:
-                msg.Char.SendMessage("Usage: @plugin <disable|enable> <plugin name>".format(args[0]))
+                msg.Chat.SendMessage("Usage: @plugin <disable|enable> <plugin name>".format(args[0]))
         else:
             msg.Chat.SendMessage("Enabled plugins:")
             plugins = [c.command for c in self.enabled_plugins]
