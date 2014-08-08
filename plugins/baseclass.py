@@ -22,13 +22,13 @@ class Plugin(object):
         return str(__name__)
 
     def __eq__(self, b):
-        if isinstance(b, str):
+        if isinstance(b, basestring):
             return self.command == b
         else:
             return self.command == b.command
 
     def __ne__(self, b):
-        if isinstance(b, str):
+        if isinstance(b, basestring):
             return self.command != b
         else:
             return self.command != b.command

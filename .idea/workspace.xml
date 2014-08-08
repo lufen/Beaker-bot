@@ -3,9 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="ab3b610c-1cc0-43f3-bd39-5dda4fdf8056" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/plugins/baseclass.py" afterPath="$PROJECT_DIR$/plugins/baseclass.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/bot.py" afterPath="$PROJECT_DIR$/bot.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/plugins/isitfriday.py" afterPath="$PROJECT_DIR$/plugins/isitfriday.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/plugins/isitwar.py" afterPath="$PROJECT_DIR$/plugins/isitwar.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="Beaker-bot.iws" />
@@ -39,21 +36,21 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="bot.py" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="bot.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/bot.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.28388998" vertical-offset="663" max-vertical-offset="2482">
-              <caret line="61" column="39" selection-start-line="61" selection-start-column="39" selection-end-line="61" selection-end-column="39" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="697" max-vertical-offset="2516">
+              <caret line="75" column="66" selection-start-line="75" selection-start-column="66" selection-end-line="75" selection-end-column="66" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="baseclass.py" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="baseclass.py" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/plugins/baseclass.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="731">
-              <caret line="16" column="22" selection-start-line="16" selection-start-column="22" selection-end-line="16" selection-end-column="22" />
+            <state vertical-scroll-proportion="0.4842829" vertical-offset="0" max-vertical-offset="1018">
+              <caret line="30" column="35" selection-start-line="30" selection-start-column="35" selection-end-line="30" selection-end-column="35" />
               <folding />
             </state>
           </provider>
@@ -172,10 +169,10 @@
         <option value="$PROJECT_DIR$/plugins/todo.py" />
         <option value="$PROJECT_DIR$/plugins/lmgtf.py" />
         <option value="$PROJECT_DIR$/plugins/cloudtobutt.py" />
-        <option value="$PROJECT_DIR$/plugins/baseclass.py" />
         <option value="$PROJECT_DIR$/plugins/isitwar.py" />
         <option value="$PROJECT_DIR$/plugins/isitfriday.py" />
         <option value="$PROJECT_DIR$/bot.py" />
+        <option value="$PROJECT_DIR$/plugins/baseclass.py" />
       </list>
     </option>
   </component>
@@ -899,14 +896,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/plugins/baseclass.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="731">
-          <caret line="16" column="22" selection-start-line="16" selection-start-column="22" selection-end-line="16" selection-end-column="22" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/plugins/todo.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="680">
@@ -933,8 +922,16 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/bot.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.28388998" vertical-offset="663" max-vertical-offset="2482">
-          <caret line="61" column="39" selection-start-line="61" selection-start-column="39" selection-end-line="61" selection-end-column="39" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="697" max-vertical-offset="2516">
+          <caret line="75" column="66" selection-start-line="75" selection-start-column="66" selection-end-line="75" selection-end-column="66" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/plugins/baseclass.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.4842829" vertical-offset="0" max-vertical-offset="1018">
+          <caret line="30" column="35" selection-start-line="30" selection-start-column="35" selection-end-line="30" selection-end-column="35" />
           <folding />
         </state>
       </provider>
