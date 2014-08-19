@@ -4,7 +4,7 @@ import os, sys
 import Skype4Py
 import ConfigParser
 import atexit
-
+import shlex
 
 class SkypeBot(object):
     def __init__(self):
@@ -38,7 +38,7 @@ class SkypeBot(object):
         print("received message: {}".format(msg.Body))
         if status == Skype4Py.cmsReceived and msg.Body[0] == self.tag:
             command = msg.Body.split(" ")[0][1:].lower()
-            args = msg.Body.split(" ")[1:]
+            args = shlex.split(msg.Body)
             for c in self.enabled_plugins:
                 if c.command == command or not c.uses_command:
                     c.message_received(args, status, msg)
@@ -62,6 +62,7 @@ class SkypeBot(object):
                             plugin.help(msg)
             elif command.lower() == "plugins":
                 self.pluginHandler(args, msg)
+
 
 
     def pluginHandler(self, args, msg):
