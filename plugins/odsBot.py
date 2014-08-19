@@ -1,12 +1,13 @@
+# coding=utf-8
 from baseclass import Plugin
 from random import randint
 
-class NSFW(Plugin):
+class Odsbot(Plugin):
     def __init__(self, skype):
-        super(NSFW, self).__init__(skype)
+        super(Odsbot, self).__init__(skype)
 
         self.command = "odsbot"
-        self.sched.add_cron_job(self.dailyNSFW, hour=19, minute=0, day_of_week="mon-sun")
+        
 
     def message_received(self, args, status, msg):
         text = args[0].lower()

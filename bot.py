@@ -38,7 +38,8 @@ class SkypeBot(object):
         print("received message: {}".format(msg.Body))
         if status == Skype4Py.cmsReceived and msg.Body[0] == self.tag:
             command = msg.Body.split(" ")[0][1:].lower()
-            args = shlex.split(msg.Body)
+            
+            args = shlex.split(msg.Body)[1:]
             for c in self.enabled_plugins:
                 if c.command == command or not c.uses_command:
                     c.message_received(args, status, msg)
