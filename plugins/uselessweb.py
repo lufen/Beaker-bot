@@ -1,4 +1,4 @@
-__author__ = 'george'
+
 import random
 from baseclass import Plugin
 
@@ -7,7 +7,7 @@ class Uselessweb(Plugin):
         super(Uselessweb, self).__init__(skype)
         self.command = "uselessweb"
         # sites from http://www.theuselessweb.com/
-        self.sites = ('http://heeeeeeeey.com/', 'http://cant-not-tweet-this.com/',
+        self.sites = ['http://heeeeeeeey.com/', 'http://cant-not-tweet-this.com/',
             'http://eelslap.com/', 'http://www.staggeringbeauty.com/',
             'http://www.omfgdogs.com/', 'http://burymewithmymoney.com/',
             'http://www.fallingfalling.com/', 'http://www.a-blue-box.com/',
@@ -40,7 +40,7 @@ class Uselessweb(Plugin):
             'http://minecraftstal.com/', 'http://www.riddlydiddly.com/',                            
             'http://www.patience-is-a-virtue.org/', 'http://whitetrash.nl/',                                   
             'http://www.theendofreason.com/', 'http://zombo.com',                                        
-            'http://secretsfornicotine.com/')      
+            'http://secretsfornicotine.com/']      
 
     def message_received(self, args, status, msg):
         url = self.random_site()
