@@ -35,11 +35,12 @@ class SkypeBot(object):
         self.enabled_plugins = self.plugin_classlist
 
     def MessageStatus(self, msg, status):
-        print("received message: {}".format(msg.Body))
+        
+        print("received message: {}".format(msg.Body.encode("utf-8)")))
         if status == Skype4Py.cmsReceived and msg.Body[0] == self.tag:
             command = msg.Body.split(" ")[0][1:].lower()
             
-            args = shlex.split(msg.Body)[1:]
+            args = shlex.split(msg.Body.encode("utf-8"))[1:]
             for c in self.enabled_plugins:
                 if c.command == command or not c.uses_command:
                     c.message_received(args, status, msg)
