@@ -1,4 +1,3 @@
-__author__ = 'george'
 from baseclass import Plugin
 
 
@@ -9,4 +8,3 @@ class Say(Plugin):
 
     def message_received(self, args, status, msg):
         msg.Chat.SendMessage(" ".join(args))
-3
