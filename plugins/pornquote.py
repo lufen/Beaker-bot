@@ -10,10 +10,12 @@ class PornQuote(Plugin):
         self.command = "pornquote"
 
     def message_received(self, args, status, msg):
-        socket = urllib.urlopen("http://www.youporn.com/random/video/")
-        htmlSource = socket.read()
-        socket.close()
-        result = re.findall('<p class="message">((?:.|\\n)*?)</p>', htmlSource)
-
+        result = []
+        while len(result) < 1:
+            socket = urllib.urlopen("http://www.youporn.com/random/video/")
+            htmlSource = socket.read()
+            socket.close()
+            result = re.findall('<p class="message">((?:.|\\n)*?)</p>', htmlSource)
+        
         msg.Chat.SendMessage(result[randrange(len(result))])
         return
