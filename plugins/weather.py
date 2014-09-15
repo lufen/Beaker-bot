@@ -10,13 +10,15 @@ class Weather(Plugin):
         self.command = "weather"
 
     def message_received(self, args, status, msg):
-        if len(args) != 1:
-            city = 'Tromsø'
-            r = requests.get('http://api.openweathermap.org/data/2.5/weather?q=Tromso&units=metric')
+        if len(args) < 1:
+            city = 'Tromsø'.decode('utf-8')
         else:
-            city = args[0].title().decode('utf-8')
-            r = requests.get('http://api.openweathermap.org/data/2.5/weather?q=' + city + '&units=metric')
-            
+            city = " ".join(args).title().decode('utf-8')
+        r = requests.get('http://api.openweathermap.org/data/2.5/weather?q=' + city + '&units=metric')
+
         data = json.loads(r.text)
-        weather = city + ': ' + str(data['main']['temp']) + '°C '.decode('utf-8') + data['weather'][0]['main']
-        msg.Chat.SendMessage(weather)
+        try:
+            weather = city + ': ' + str(data['main']['temp']) + '°C '.decode('utf-8') + data['weather'][0]['main']
+            msg.Chat.SendMessage(weather)
+        except:
+            msg.Chat.SendMessage("City was not found!")
