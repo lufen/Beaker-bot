@@ -1,5 +1,4 @@
 __author__ = 'george'
-import httplib
 from baseclass import Plugin
 from apscheduler.scheduler import Scheduler
 import wikipedia as wiki

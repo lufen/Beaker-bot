@@ -1,6 +1,8 @@
 __author__ = 'george'
 from baseclass import Plugin
 import time
+
+
 class Banished(object):
     def __init__(self, skype):
         super(Banished, self).__init__(skype)

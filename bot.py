@@ -35,8 +35,7 @@ class SkypeBot(object):
         self.enabled_plugins = self.plugin_classlist
 
     def MessageStatus(self, msg, status):
-        
-        print("received message: {}".format(msg.Body.encode("utf-8)")))
+        print("received message: {}".format(msg.Body))
         if status == Skype4Py.cmsReceived and msg.Body[0] == self.tag:
             command = msg.Body.split(" ")[0][1:].lower()
             
@@ -96,12 +95,25 @@ class SkypeBot(object):
                                 self.enabled_plugins.remove(module)
                                 msg.Chat.SendMessage("{} has now been disabled".format(plugin))
                                 return
+                elif args[0] == "reload":
+                    self.plugin_classlist = []
+                    self.load_plugins()
 
+                    self.enabled_plugins = []
+                    old_disabled_plugins = self.disabled_plugins
+                    self.disabled_plugins = []
+                    for p in self.plugin_classlist:
+                        if p in old_disabled_plugins:
+                            self.disabled_plugins.append(p)
+                        else:
+                            self.enabled_plugins.append(p)
+                    print("Enabled plugins: {}".format(self.enabled_plugins))
+                    print("Disabled Plugins: {}".format(self.disabled_plugins))
                 else:
                     msg.Chat.Send("Usage: @plugin <disable|enable> <plugin name>")
 
             else:
-                msg.Chat.SendMessage("Usage: @plugin <disable|enable> <plugin name>".format(args[0]))
+                msg.Chat.SendMessage("Usage: @plugin <disable|enable> <plugin name>")
         else:
             msg.Chat.SendMessage("Enabled plugins:")
             plugins = [c.command for c in self.enabled_plugins]

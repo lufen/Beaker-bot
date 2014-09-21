@@ -6,5 +6,5 @@ class ShutUp(Plugin):
         super(ShutUp, self).__init__(skype, "shutup")
         self.command = "shutup"
 
-    def message_received(self, msg, status):
+    def message_received(self, args, status, msg):
         pass

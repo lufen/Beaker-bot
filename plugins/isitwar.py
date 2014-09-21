@@ -1,6 +1,5 @@
 __author__ = 'george'
 from baseclass import Plugin
-import time
 import urllib
 from random import choice
 from apscheduler.scheduler import Scheduler
