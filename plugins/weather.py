@@ -18,7 +18,7 @@ class Weather(Plugin):
 
         data = json.loads(r.text)
         try:
-            weather = city + ': ' + str(data['main']['temp']) + '°C '.decode('utf-8') + data['weather'][0]['main']
+            weather = "Input: "+ city + ", searched for: "+str(data['name']) + ': ' + str(data['main']['temp']) + '°C '.decode('utf-8') + data['weather'][0]['main']
             msg.Chat.SendMessage(weather)
         except:
             msg.Chat.SendMessage("City was not found!")
