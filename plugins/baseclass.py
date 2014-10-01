@@ -19,7 +19,7 @@ class Plugin(object):
         msg.Chat.SendMessage(text)
 
     def __repr__(self):
-        return str(__name__)
+        return str(self.command)
 
     def __eq__(self, b):
         if isinstance(b, basestring):

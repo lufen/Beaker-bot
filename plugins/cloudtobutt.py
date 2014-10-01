@@ -10,6 +10,7 @@ class CloudToButt(Plugin):
 
     def message_received(self, args, status, msg):
         text = msg.Body
+        print("body:".format(msg.Body))
         if "cloud" in text.lower() or "butt" in text.lower():
             newText = self.multiple_replace(self.replacements, text)
             msg.Chat.SendMessage(newText)

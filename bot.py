@@ -95,23 +95,25 @@ class SkypeBot(object):
                                 self.enabled_plugins.remove(module)
                                 msg.Chat.SendMessage("{} has now been disabled".format(plugin))
                                 return
-                elif args[0] == "reload":
-                    self.plugin_classlist = []
-                    self.load_plugins()
-
-                    self.enabled_plugins = []
-                    old_disabled_plugins = self.disabled_plugins
-                    self.disabled_plugins = []
-                    for p in self.plugin_classlist:
-                        if p in old_disabled_plugins:
-                            self.disabled_plugins.append(p)
-                        else:
-                            self.enabled_plugins.append(p)
-                    print("Enabled plugins: {}".format(self.enabled_plugins))
-                    print("Disabled Plugins: {}".format(self.disabled_plugins))
+                
                 else:
+                    print("Uknown arg {}".format(args[0]))
                     msg.Chat.Send("Usage: @plugin <disable|enable> <plugin name>")
+            elif args[0] == "reload":
+                self.plugin_classlist = []
+                self.load_plugins()
 
+                self.enabled_plugins = []
+                old_disabled_plugins = self.disabled_plugins
+                self.disabled_plugins = []
+                for p in self.plugin_classlist:
+                    print("looking at plugin {}".format(p))
+                    if p in old_disabled_plugins:
+                        self.disabled_plugins.append(p)
+                    else:
+                        self.enabled_plugins.append(p)
+                print("Enabled plugins: {}".format(self.enabled_plugins))
+                print("Disabled Plugins: {}".format(self.disabled_plugins))
             else:
                 msg.Chat.SendMessage("Usage: @plugin <disable|enable> <plugin name>")
         else:
