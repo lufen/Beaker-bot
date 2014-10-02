@@ -84,14 +84,19 @@ class Buss(Plugin):
         list_of_trips.sort(key=lambda tup: tup[0])
 
         if len(list_of_trips) != 0:
-            msg.Chat.SendMessage("Busses found ")
             num = len(list_of_trips)
             if num > 3:
                 num = 3
             for i in range(num):
                 elem = list_of_trips[i]
+                msgTrip = ""
                 trips = elem[1]
-                for trip in trips:
+                trips_to_print = len(trips)
+                print len(trips)
+                if trips_to_print > 3:
+                    trips_to_print = 3
+                for x in range(trips_to_print):
+                    trip = trips[x]
                     msg.Chat.SendMessage("*" + str(trip[0]) + "* from " + str(trip[1].encode('utf-8')) + " to " + str(
                         trip[3].encode('utf-8')) + " at " + str(trip[2]))
         else:
