@@ -90,12 +90,10 @@ class Buss(Plugin):
                 num = 3
             for i in range(num):
                 elem = list_of_trips[i]
-                msgTrip = ""
                 trips = elem[1]
                 for trip in trips:
-                    msgTrip += "*" + str(trip[0]) + "* from " + str(trip[1].encode('utf-8')) + " to " + str(
-                        trip[3].encode('utf-8')) + " at " + str(trip[2]) + "\n"
-                msg.Chat.SendMessage(msgTrip)
+                    msg.Chat.SendMessage("*" + str(trip[0]) + "* from " + str(trip[1].encode('utf-8')) + " to " + str(
+                        trip[3].encode('utf-8')) + " at " + str(trip[2]))
         else:
             msg.Chat.SendMessage("No busses found")
 
