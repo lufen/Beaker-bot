@@ -17,7 +17,7 @@ class Beer(Plugin):
         r = requests.get(
             'http://beermapping.com/webservice/locquery/7829347ccd56f03274b428b2fca37c77/' + city)
         root = ET.fromstring((r.text).encode('utf-8'))
-        locs = root.iter('location')
+        locs = root.iter('location') 
         num = 0
         for loc in locs:
             if loc[6].text != None:
