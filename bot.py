@@ -9,7 +9,7 @@ import shlex
 class SkypeBot(object):
     def __init__(self):
         self.name = "Default name"
-        self.tag = "@"
+        self.tag = None
         #self.skype = Skype4Py.Skype(Events=self, Transport="dbus")
         self.skype = Skype4Py.Skype(Events=self)
 
@@ -29,6 +29,8 @@ class SkypeBot(object):
         self.skype.FriendlyName = "Beaker"
         self.skype._SetTimeout = 20
         self.skype.Attach()
+        if not self.tag:
+            self.tag = "@"
         print("I'm ready")
         self.skype.ChangeUserStatus(Skype4Py.cusOnline)
         atexit.register(self.on_exit)
@@ -147,7 +149,6 @@ class SkypeBot(object):
         config.read("settings.conf")
         self.name = config.get("general", "name")
         self.tag = str(config.get("general", "tag"))
-
         plugins = config.options("plugins")
         for plugin in plugins:
             if config.getboolean("plugins", plugin):
