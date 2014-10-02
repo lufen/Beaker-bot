@@ -35,9 +35,7 @@ class Buss(Plugin):
         elements in list:
         (origin, time, buss nr, dest)
         """
-        r = requests.get(
-            'http://hafas.utvikling01.reiseinfo.no/bin/dev/nri/rest.exe/v1.1/vs_restapi/trip?authKey=cha-o2f-7s4-j3y&time=' + str(
-                clock) + '&originId=' + startID[0] + '&destId=' + stopID)
+        r = requests.get("http://hafas.utvikling01.reiseinfo.no/bin/dev/nri/rest.exe/v1.1/vs_restapi/trip?authKey=cha-o2f-7s4-j3y&time={}&originId={}&destId={}".format(str(clock), startID[0], stopID))
         root = ET.fromstring((r.text).encode('utf-8'))
         legList = root.iter('LegList')
         for legs in legList:
@@ -76,14 +74,14 @@ class Buss(Plugin):
             stopID, stop = self.getStopId(stop.lower())
 
         clock = datetime.now().strftime('%H:%M')
-        msg.Chat.SendMessage("Finding buss between " + start + " and " + stop + " at " + str(clock))
+        msg.Chat.SendMessage("Finding buss between {} and {} at {}".format(start, stop, str(clock)))
 
         list_of_trips = []
         for i in range(len(stopID)):
             self.getTimes(startID, stopID[i], clock, list_of_trips)
         list_of_trips.sort(key=lambda tup: tup[0])
 
-        if len(list_of_trips) != 0:
+        if len(list_of_trips) != 0 and len(list_of_trips) < 7:
             msg.Chat.SendMessage("Busses found ")
             num = len(list_of_trips)
             if num > 3:
@@ -93,9 +91,11 @@ class Buss(Plugin):
                 msgTrip = ""
                 trips = elem[1]
                 for trip in trips:
-                    msgTrip += "*" + str(trip[0]) + "* from " + str(trip[1].encode('utf-8')) + " to " + str(
-                        trip[3].encode('utf-8')) + " at " + str(trip[2]) + "\n"
+                    msgTrip += "*{}* from {} to {} at {}\n".format(str(trip[0]), str(trip[1].encode('utf-8')), str(
+                        trip[3].encode('utf-8')), str(trip[2]))
                 msg.Chat.SendMessage(msgTrip)
+        elif len(list_of_trips > 7):
+            msg.Chat.SendMessage("Too many hops to display")
         else:
             msg.Chat.SendMessage("No busses found")
 
