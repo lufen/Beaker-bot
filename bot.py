@@ -35,7 +35,7 @@ class SkypeBot(object):
         self.enabled_plugins = self.plugin_classlist
 
     def MessageStatus(self, msg, status):
-        print("received message: {}".format(msg.Body))
+        print("received message: {}".format(msg.Body.encode('utf-8')))
         if status == Skype4Py.cmsReceived and msg.Body[0] == self.tag:
             command = msg.Body.split(" ")[0][1:].lower()
             
