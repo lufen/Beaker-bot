@@ -1,7 +1,7 @@
-[![Code Health](https://landscape.io/github/jvlomax/Beaker-bot/master/landscape.png)](https://landscape.io/github/jvlomax/Beaker-bot/master)
 
 Beaker-bot
 ==========
+[![Code Health](https://landscape.io/github/jvlomax/Beaker-bot/master/landscape.png)](https://landscape.io/github/jvlomax/Beaker-bot/master)
 
 Skype Python bot
 
